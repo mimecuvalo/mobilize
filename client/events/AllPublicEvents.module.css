@@ -1,0 +1,18 @@
+.eventsAndMap {
+  display: flex;
+  max-width: 80vw;
+  height: 100vh;
+  overflow: auto;
+  padding: 15px;
+}
+
+.events {
+  margin: 0;
+}
+
+.map {
+  position: sticky;
+  top: 0;
+  width: 33vw;
+  margin-left: 15px;
+}

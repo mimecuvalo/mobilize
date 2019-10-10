@@ -1,6 +1,6 @@
+import eventResolvers from './event';
 import { GraphQLScalarType } from 'graphql';
 import { Kind } from 'graphql/language';
-import userResolvers from './user';
 
 const exampleResolvers = {
   Date: new GraphQLScalarType({
@@ -30,4 +30,4 @@ const exampleResolvers = {
   },
 };
 
-export default [exampleResolvers, userResolvers];
+export default [exampleResolvers, eventResolvers];

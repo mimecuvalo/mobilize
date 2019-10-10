@@ -9,7 +9,7 @@ export default function HTMLHead({ assetPathsByType, nonce, publicUrl, req, titl
       {assetPathsByType['css'].map(path => (
         <link nonce={nonce} rel="stylesheet" key={path} href={path} />
       ))}
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik:400,500,700,900|Space+Mono:400,700" />
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
       <link rel="search" href="/api/opensearch" type="application/opensearchdescription+xml" title={title} />
       <meta name="viewport" content="width=device-width, initial-scale=1" />

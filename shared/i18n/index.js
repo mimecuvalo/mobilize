@@ -1,5 +1,6 @@
 import {
   defineMessages as originalDefineMessages,
+  FormattedDate as originalFormattedDate,
   FormattedHTMLMessage,
   FormattedMessage,
   injectIntl as originalInjectIntl,
@@ -75,4 +76,5 @@ export function defineMessages(values) {
   return originalDefineMessages(values);
 }
 
+export const FormattedDate = originalFormattedDate;
 export const injectIntl = originalInjectIntl;

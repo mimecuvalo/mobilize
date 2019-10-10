@@ -1,0 +1,63 @@
+.event {
+  display: block;
+  margin-bottom: 15px;
+  padding: 15px;
+  font-family: Rubik, sans-serif;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  text-decoration: none;
+  color: rgb(35, 36, 68);
+  transition: all .12s ease-out;
+}
+
+.event:hover {
+  transform: scale(1.01);
+  box-shadow: 2px 2px 6px #666;
+}
+
+.event img {
+  float: right;
+  margin-left: 15px;
+  object-fit: cover;
+  object-position: top center;
+  width: 243px;
+  height: 160px;
+}
+
+.event h2 {
+  margin: 0 0 5px 0;
+  text-transform: uppercase;
+  font-size: 24px;
+}
+
+.eventType {
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.address,
+.timeslots {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 14px;
+  white-space: pre;
+}
+
+.event button {
+  border: 3px solid rgb(183, 228, 207);
+  line-height: 23px;
+  font-weight: 600;
+  font-family: Rubik, sans-serif;
+  border-radius: 0;
+  background-color: rgb(183, 228, 207);
+}
+
+.event button:hover {
+  background-color: #fff;
+}
+
+.clear {
+  display: block;
+  clear: both;
+}

@@ -1,5 +1,4 @@
 .App {
-  text-align: center;
 }
 
 .App-logged-in {
@@ -15,7 +14,7 @@
 }
 
 .App-main {
-  background-color: #282c34;
+  background-color: #fafafa;
   min-height: 100vh;
   display: flex;
   flex-direction: column;

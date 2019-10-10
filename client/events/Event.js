@@ -14,7 +14,7 @@ class Event extends PureComponent {
     const imageAriaLabel = this.props.intl.formatMessage(messages.img);
 
     return(
-      <a href={event.browser_url} className={styles.event}>
+      <a href={event.browser_url} className={styles.event} style={{backgroundImage: `url(${event.featured_image_url})`}}>
         {event.featured_image_url ? <img src={event.featured_image_url} alt={imageAriaLabel} /> : null}
         <span>
           <span className={styles.eventType}>{event.event_type.replace(/_/, ' ')}</span>

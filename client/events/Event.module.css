@@ -8,6 +8,9 @@
   text-decoration: none;
   color: rgb(35, 36, 68);
   transition: all .12s ease-out;
+  background-size: cover;
+  background-color: rgba(255, 255, 255, 1);  /* we have it non-opaque on mobile */
+  background-blend-mode: lighten;
 }
 
 .event:hover {
@@ -60,4 +63,14 @@
 .clear {
   display: block;
   clear: both;
+}
+
+@media only screen and (max-width: 600px) {
+  .event {
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+
+  .event img {
+    display: none;
+  }
 }

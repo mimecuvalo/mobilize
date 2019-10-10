@@ -1,6 +1,8 @@
 import Event from './Event';
+import { F } from '../../shared/i18n';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
+import InfiniteFeed from '../components/InfiniteFeed';
 import Map from './Map';
 import React, { PureComponent } from 'react';
 import styles from './AllPublicEvents.module.css';
@@ -9,8 +11,8 @@ import styles from './AllPublicEvents.module.css';
 // It's a more complex example that lets you grab the props value of the component you're looking at.
 @graphql(
   gql`
-    query AllPublicEvents {
-      allPublicEvents {
+    query AllPublicEvents($offset: Int!) {
+      allPublicEvents(offset: $offset) {
         id
         description
         timezone
@@ -46,7 +48,7 @@ import styles from './AllPublicEvents.module.css';
   {
     options: ({ match: { url } }) => ({
       variables: {
-        str: url,
+        offset: 1,
       },
     }),
   }
@@ -57,13 +59,19 @@ class AllPublicEvents extends PureComponent {
       return null;
     }
 
+    if (!this.props.data.allPublicEvents) {
+      return <div><F msg="No events found." /></div>;
+    }
+
     return (
       <article className={styles.eventsAndMap}>
-        <ul className={styles.events}>
-          {this.props.data.allPublicEvents.map(event => (
-            <li key={event.id}><Event event={event} /></li>
-          ))}
-        </ul>
+        <InfiniteFeed fetchMore={this.props.data.fetchMore} queryName="allPublicEvents">
+          <ul className={styles.events}>
+            {this.props.data.allPublicEvents.map(event => (
+              <li key={event.id}><Event event={event} /></li>
+            ))}
+          </ul>
+        </InfiniteFeed>
         <Map className={styles.map} events={this.props.data.allPublicEvents} />
       </article>
     );

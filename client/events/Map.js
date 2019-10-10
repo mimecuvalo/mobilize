@@ -4,10 +4,23 @@ const USA = {lat: 39.881002, lng: -99.825682};
 
 export default class Map extends PureComponent {
   componentDidMount() {
-    const map = new window.google.maps.Map(document.getElementById('map'), {
+    this.markerCluster = null;
+    this.map = new window.google.maps.Map(document.getElementById('map'), {
       zoom: 3,
-      center: {lat: 39.881002, lng: -99.825682},
+      center: USA,
     });
+
+    this.setMarkers();
+  }
+
+  componentDidUpdate() {
+    this.setMarkers();
+  }
+
+  setMarkers() {
+    if (this.markerCluster) {
+      this.markerCluster.clearMarkers();
+    }
 
     const locations = this.props.events
         .map(event => event.location ?
@@ -15,6 +28,7 @@ export default class Map extends PureComponent {
             lat: event.location.location.latitude,
             lng: event.location.location.longitude,
             title: event.title,
+            browser_url: event.browser_url,
           }
           : null
         )
@@ -32,17 +46,17 @@ export default class Map extends PureComponent {
       });
 
       const infoWindow = new window.google.maps.InfoWindow({
-        content: `<span style='color: #000'>${location.title}</span>`,
+        content: `<span style='color: #000'><a href="${location.browser_url}">${location.title}</a></span>`,
       });
       window.google.maps.event.addListener(marker, 'click', function() {
-        infoWindow.open(map, marker);
+        infoWindow.open(this.map, marker);
       });
 
       return marker;
     });
 
     // Add a marker clusterer to manage the markers.
-    const markerCluster = new window.MarkerClusterer(map, markers,
+    this.markerCluster = new window.MarkerClusterer(this.map, markers,
         {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
   }
 

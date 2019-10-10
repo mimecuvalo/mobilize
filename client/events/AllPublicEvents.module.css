@@ -1,8 +1,10 @@
+body {
+  position: sticky;
+}
+
 .eventsAndMap {
   display: flex;
   max-width: 80vw;
-  height: 100vh;
-  overflow: auto;
   padding: 15px;
 }
 
@@ -12,7 +14,9 @@
 
 .map {
   position: sticky;
-  top: 0;
+  top: 15px;
+  height: calc(100vh - 30px);
+  right: 0;
   width: 33vw;
   margin-left: 15px;
 }
@@ -24,6 +28,7 @@
   }
 
   .map {
+    position: static;
     margin-left: 0;
   }
 

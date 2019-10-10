@@ -34,7 +34,7 @@ export default gql`
     featured_image_url: String!
     timeslots: [Slot!]!
     location: Location
-    event_type: String!
+    event_type: String
     created_date: Int!
     modified_date: Int!
     browser_url: String!
@@ -55,6 +55,6 @@ export default gql`
   }
 
   extend type Query {
-    allPublicEvents: [Event]
+    allPublicEvents(offset: Int!): [Event]
   }
 `;

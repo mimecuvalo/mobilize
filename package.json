@@ -1,0 +1,69 @@
+{
+  "name": "mobilize-america",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "cra-all-the-things": "0.8.6",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2"
+  },
+  "scripts": {
+    "start": "npm-run-all --parallel serve:dev styleguide",
+    "serve:dev": "react-scripts serve-dev",
+    "serve:prod": "react-scripts serve-prod",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "analyze": "source-map-explorer build/static/js/main.*",
+    "flow": "flow",
+    "postinstall": "if test \"$NODE_ENV\" = \"development\" ; then flow-typed install; fi",
+    "build-storybook": "build-storybook -s public",
+    "styleguide": "start-storybook -p 9001 -c .storybook --ci --quiet"
+  },
+  "devDependencies": {
+    "@storybook/addon-actions": "5.1.0-beta.0",
+    "@storybook/addon-links": "5.1.0-beta.0",
+    "@storybook/addons": "5.1.0-beta.0",
+    "@storybook/react": "5.1.0-beta.0",
+    "axe-core": "3.2.2",
+    "enzyme": "3.8.0",
+    "enzyme-adapter-react-16": "1.7.1",
+    "flightplan": "0.6.19",
+    "flow-bin": "0.98.1",
+    "flow-typed": "2.5.1",
+    "husky": "1.1.2",
+    "lint-staged": "8.1.0",
+    "memory-fs": "0.4.1",
+    "npm-run-all": "4.1.5",
+    "prettier": "1.14.3",
+    "react-test-renderer": "16.7.0",
+    "require-from-string": "2.0.2",
+    "source-map-explorer": "1.8.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "(client|server|shared)/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --trailing-comma es5 --single-quote --write",
+      "git add"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

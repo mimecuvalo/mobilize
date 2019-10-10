@@ -35,7 +35,6 @@ export default class Footer extends PureComponent {
   render() {
     return (
       <footer className={styles.footer}>
-        {this.renderDebugMenu()}
         <Help />
       </footer>
     );

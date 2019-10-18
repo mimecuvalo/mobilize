@@ -33,33 +33,17 @@ const fs = require('fs');
 const plan = require('flightplan');
 const { promisify } = require('util');
 
-// configuration
-plan.target('stage', {
-  host: 'staging.example.com',
-  username: 'example',
-  agent: process.env.SSH_AUTH_SOCK,
+plan.target('prod', [
+  {
+    host: 'nite-lite.net',
+    username: 'mime',
+    agent: process.env.SSH_AUTH_SOCK
+  }
+], {
+  user: 'www-data',
 });
 
-plan.target(
-  'prod',
-  [
-    {
-      host: 'www1.example.com',
-      username: 'example',
-      agent: process.env.SSH_AUTH_SOCK,
-    },
-    {
-      host: 'www2.example.com',
-      username: 'example',
-      agent: process.env.SSH_AUTH_SOCK,
-    },
-  ],
-  {
-    user: 'www-data',
-  }
-);
-
-const DIRECTORY_NAME = 'example.com';
+const DIRECTORY_NAME = 'mobilize';
 
 const time = new Date().getTime();
 const tmpDir = `${DIRECTORY_NAME}-${time}`;
@@ -99,16 +83,13 @@ plan.remote(function(remote) {
   remote.sudo(`cp -R ${remoteTmpDir} /var/www`, { user });
   remote.rm(`-rf ${remoteTmpDir}`);
 
-  remote.log('Moving .env file over...');
+  remote.log('Copying .env file over...');
   remote.sudo(`cp ${destDir}/.env ${varTmpDir}/`, { user, failsafe: true });
 
   remote.log('Seeing if we can just reuse the previous node_modules folder...');
   const isNPMUnchanged = remote.sudo(`cmp ${destDir}/package.json ${varTmpDir}/package.json`, { user, failsafe: true });
 
-  if (
-    isNPMUnchanged.code === 0 ||
-    (isNPMUnchanged.stderr && isNPMUnchanged.stderr.indexOf('cmp: EOF') === 0) /* ignore NOEOL false positive */
-  ) {
+  if (isNPMUnchanged.code === 0 || (isNPMUnchanged.stderr && isNPMUnchanged.stderr.indexOf('cmp: EOF') === 0 /* ignore NOEOL false positive */)) {
     remote.log('package.json is unchanged. Reusing previous node_modules folder...');
     remote.sudo(`mv ${destDir}/node_modules ${varTmpDir}`, { user });
   } else {
@@ -116,27 +97,16 @@ plan.remote(function(remote) {
     remote.sudo(`npm --production --prefix ${varTmpDir} install ${varTmpDir}`, { user });
   }
 
-  // Copy over sessions.
-  remote.sudo(`cp -R ${destDir}/sessions ${varTmpDir}`, { user, failsafe: true });
-
   remote.log('Reloading application...');
   remote.sudo(`ln -snf ${varTmpDir} ${destDir}`, { user });
 
   // XXX(mime) :-/ sucks but getCSSModuleLocalIdent gives hashes based on filepaths... need to look for workaround
+  remote.sudo(`cd ${destDir}; pm2 kill; pm2 stop mobilize`, { user, failsafe: true });
   remote.log('Building production files...');
   remote.sudo(`cd ${varTmpDir}; npm run build`, { user });
 
   // TODO(mime); doing `pm2 kill` is less than ideal - but pm2 doesn't know how to switch out symlinked directories :-/
   // This is done here for the sake of keeping all-the-things as zero-config as possible.
   // For a cleaner deploy take a look at this doc: http://pm2.keymetrics.io/docs/tutorials/capistrano-like-deployments
-  remote.sudo(`cd ${destDir}; pm2 kill; pm2 startOrReload ecosystem.config.js`, { user });
-});
-
-// run more commands on localhost afterwards
-plan.local(function(local) {
-  /* ... */
-});
-// ...or on remote hosts
-plan.remote(function(remote) {
-  /* ... */
+  remote.sudo(`cd ${destDir}; pm2 startOrReload ecosystem.config.js`, { user });
 });

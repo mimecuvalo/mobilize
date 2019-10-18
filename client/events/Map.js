@@ -65,7 +65,7 @@ export default class Map extends PureComponent {
       <div className={this.props.className}>
         <div id="map" style={{ width: '100%', height: '100%' }} />
         <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js" />
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkO301dUlrXRUf1BiuTVBGKINgSZsUg_o&callback=initMap" />
+        <script src="https://maps.googleapis.com/maps/api/js?key=INSERT_API_KEY_HERE&callback=initMap" />
       </div>
     );
   }
